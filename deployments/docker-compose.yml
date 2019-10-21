@@ -1,0 +1,33 @@
+version: '3'
+
+# Define services
+services:
+
+  # App Service
+  app:
+    # Configuration for building the docker image for the service
+    build:
+      context: ../ # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: ./build/Dockerfile
+    volumes:
+      - ../:/app
+    ports:
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: unless-stopped
+    depends_on:
+      - db
+    links:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql:rw
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: postgres-dev
+      POSTGRES_PASSWORD: s3cr3tp4ssw0rd
+    ports:
+      - 5435:5432
+volumes:
+  postgres_data:
+    driver: local
