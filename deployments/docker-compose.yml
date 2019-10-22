@@ -16,18 +16,32 @@ services:
     restart: unless-stopped
     depends_on:
       - db
+      - db_test
     links:
       - db
+      - db_test
   db:
     image: postgres
     volumes:
-      - ./postgres_data:/var/lib/postgresql:rw
+      - ./postgres_data:/var/lib/postgresql
     environment:
       POSTGRES_DB: dev
       POSTGRES_USER: postgres-dev
       POSTGRES_PASSWORD: s3cr3tp4ssw0rd
     ports:
       - 5435:5432
+  db_test:
+    image: postgres
+    volumes:
+      - ./postgres_data_test:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: dev_test
+      POSTGRES_USER: postgres-dev
+      POSTGRES_PASSWORD: s3cr3tp4ssw0rd
+    ports:
+      - 5436:5432
 volumes:
   postgres_data:
+    driver: local
+  postgres_data_test:
     driver: local

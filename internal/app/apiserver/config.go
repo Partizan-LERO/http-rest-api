@@ -1,6 +1,6 @@
 package apiserver
 
-import "github.com/partizan-lero/http-rest-api/internal/store"
+import "github.com/partizan-lero/http-rest-api/internal/app/store"
 
 type Config struct {
 	BindAddr string `toml:"bind_addr"`
